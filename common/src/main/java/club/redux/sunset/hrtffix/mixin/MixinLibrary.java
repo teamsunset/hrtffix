@@ -5,7 +5,6 @@ package club.redux.sunset.hrtffix.mixin;
 import com.mojang.blaze3d.audio.Library;
 import org.lwjgl.openal.ALC10;
 import org.lwjgl.openal.ALCCapabilities;
-import org.lwjgl.openal.EXTEfx;
 import org.lwjgl.openal.SOFTHRTF;
 import org.lwjgl.system.MemoryStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,9 +23,6 @@ import java.nio.IntBuffer;
 public class MixinLibrary {
     @Shadow
     private long currentDevice;
-
-    @Shadow
-    private long context;
 
     @Unique
     private ALCCapabilities deviceCapabilities;
@@ -52,7 +48,6 @@ public class MixinLibrary {
                 intBuffer.put(SOFTHRTF.ALC_HRTF_SOFT).put(setHrtf ? ALC10.ALC_TRUE : ALC10.ALC_FALSE);
                 intBuffer.put(SOFTHRTF.ALC_HRTF_ID_SOFT).put(0);
             }
-            intBuffer.put(EXTEfx.ALC_MAX_AUXILIARY_SENDS).put(4);
             return intBuffer.put(originalValue);
         } finally {
             this.deviceCapabilities = null;
