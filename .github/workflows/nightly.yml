@@ -70,5 +70,6 @@ jobs:
           body: ${{ steps.get_changelog.outputs.changelog }}
           files: |
             ./fabric/build/libs/*.jar
-            ./forge/build/libs/*.jar
+            ./forge-1.20.x/build/libs/*.jar
+            ./forge-1.21.x/build/libs/*.jar
             ./neoforge/build/libs/*.jar
