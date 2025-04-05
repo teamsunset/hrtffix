@@ -1,4 +1,8 @@
+import club.redux.sunset.hrtffix.Props
 import org.gradle.plugins.ide.idea.model.IdeaModel
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 plugins {
     id("java")
@@ -24,6 +28,23 @@ subprojects {
         maven { url = uri("https://www.cursemaven.com"); content { includeGroup("curse.maven") } }
         mavenLocal()
         mavenCentral()
+    }
+
+    tasks.withType<Jar>().configureEach {
+        manifest {
+            attributes(
+                mapOf(
+                    "Specification-Title" to Props.MOD_ID,
+                    "Specification-Vendor" to Props.MOD_AUTHORS,
+                    "Specification-Version" to "1", // We are version 1 of ourselves
+                    "Implementation-Title" to Props.MOD_NAME,
+                    "Implementation-Version" to Props.MOD_VERSION,
+                    "Implementation-Vendor" to Props.MOD_AUTHORS,
+                    "Implementation-Timestamp" to DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ")
+                        .format(Date().toInstant().atOffset(ZoneOffset.UTC))
+                )
+            )
+        }
     }
 
     configure<IdeaModel> {
