@@ -8,6 +8,9 @@
 Fix [MC-265514](https://bugs.mojang.com/browse/MC-265514).  
 修复了 [MC-265514](https://bugs.mojang.com/browse/MC-265514)。
 
+Referred to [bytzo/mc-265514](https://github.com/bytzo/mc-265514).  
+参考了 [bytzo/mc-265514](https://github.com/bytzo/mc-265514).
+
 ## License
 
 > 许可
