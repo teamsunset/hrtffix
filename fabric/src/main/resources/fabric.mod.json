@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "version": "${mod_version}",
+  "id": "${mod_id}",
+  "name": "${mod_name}",
+  "description": "${mod_description}",
+  "authors": [
+    "${mod_authors}",
+    "${mod_credits}"
+  ],
+  "contact": {
+    "sources": "https://github.com/teamsunset/hrtffix",
+    "issues": "https://github.com/teamsunset/hrtffix/issues"
+  },
+  "license": "${mod_license}",
+  "icon": "logo.png",
+  "environment": "client",
+  "mixins": [
+    {
+      "config": "${mod_id}.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "minecraft": ">=1.20.2-alpha.23.31.a <1.21.5-alpha.25.02.a"
+  }
+}
