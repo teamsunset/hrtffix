@@ -69,4 +69,7 @@ jobs:
           name: nightly-$$-${{ github.run_id }}
           prerelease: true
           body: ${{ steps.get_changelog.outputs.changelog }}
-          files: "**/build/libs/*-all.jar"
+          files: |
+            ./fabric/build/libs/*.jar
+            ./forge/build/libs/*.jar
+            ./neoforge/build/libs/*.jar
