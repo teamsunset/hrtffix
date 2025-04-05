@@ -38,13 +38,13 @@ public class MixinLibrary {
         return originalSize + 6;
     }
 
-    @Inject(method = "init", at = @At(value = "INVOKE", target = "Ljava/nio/IntBuffer;put(I)Ljava/nio/IntBuffer;", ordinal = 2), locals = LocalCapture.CAPTURE_FAILHARD)
+    @Inject(method = "init(Ljava/lang/String;Z)V", at = @At(value = "INVOKE", target = "Ljava/nio/IntBuffer;put(I)Ljava/nio/IntBuffer;", ordinal = 2), locals = LocalCapture.CAPTURE_FAILHARD)
     private void exportInitHrtfLocals(String string, boolean bl, CallbackInfo ci, ALCCapabilities aLCCapabilities, MemoryStack memoryStack) {
         this.deviceCapabilities = aLCCapabilities;
         this.hrtfEnabled = bl;
     }
 
-    @Redirect(method = "init", at = @At(value = "INVOKE", target = "Ljava/nio/IntBuffer;put(I)Ljava/nio/IntBuffer;", ordinal = 2))
+    @Redirect(method = "init(Ljava/lang/String;Z)V", at = @At(value = "INVOKE", target = "Ljava/nio/IntBuffer;put(I)Ljava/nio/IntBuffer;", ordinal = 2))
     private IntBuffer redirectAndAddHrtfAttributes(IntBuffer intBuffer, int originalValue) {
         try {
             if (ALC10.alcGetInteger(currentDevice, SOFTHRTF.ALC_NUM_HRTF_SPECIFIERS_SOFT) > 0) {
@@ -58,7 +58,7 @@ public class MixinLibrary {
             this.deviceCapabilities = null;
         }
     }
-    
+
     @Inject(method = "setHrtf(Z)V", at = @At("HEAD"), cancellable = true)
     private void cancelSetHrtf(boolean bl, CallbackInfo ci) {
         ci.cancel();

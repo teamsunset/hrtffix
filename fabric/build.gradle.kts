@@ -32,3 +32,9 @@ tasks.processResources {
         expand(props)
     }
 }
+
+loom {
+    mixin {
+        defaultRefmapName = "${Props.MOD_ID}.refmap.json"
+    }
+}
