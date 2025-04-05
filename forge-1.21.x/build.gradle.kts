@@ -8,10 +8,13 @@ val minecraftMappingChannel: String by project
 val minecraftMappingVersion: String by project
 val modLoader: String by project
 val modLoaderVersionRange: String by project
+val minecraftVersion = "1.20.6"
 
-version = "forge-${Props.MOD_VERSION}"
+version = "forge-1.21.x-${Props.MOD_VERSION}"
 group = Props.MOD_GROUP_ID
 base.archivesName.set(Props.MOD_ID)
+
+java.toolchain.languageVersion.set(JavaLanguageVersion.of(21))
 
 plugins {
     java
@@ -36,7 +39,7 @@ tasks.compileJava { source(project(":common").sourceSets["main"].allSource) }
 evaluationDependsOn(":common")
 
 dependencies {
-    val mc = "net.minecraftforge:forge:${Props.MINECRAFT_VERSION}-${forgeVersion}"
+    val mc = "net.minecraftforge:forge:${minecraftVersion}-${forgeVersion}"
     val mixinProcessor = "org.spongepowered:mixin:0.8.5:processor"
 
     compileOnly(project(":common"))
@@ -47,6 +50,12 @@ dependencies {
     // Mixin
     annotationProcessor(mixinProcessor)
 }
+
+mixin {
+    add(sourceSets.main.get(), "${Props.MOD_ID}.refmap.json")
+    config("${Props.MOD_ID}.mixins.json")
+}
+tasks.compileJava { options.annotationProcessorPath = files() }
 
 minecraft {
     mappings(minecraftMappingChannel, minecraftMappingVersion)
@@ -91,17 +100,15 @@ minecraft {
     }
 }
 
-mixin {
-    add(sourceSets.main.get(), "${Props.MOD_ID}.refmap.json")
-    config("${Props.MOD_ID}.mixins.json")
-}
-
-val props = mapOf(
+val props = (mapOf(
     "forge_version" to forgeVersion,
     "forge_version_range" to forgeVersionRange,
     "mod_loader" to modLoader,
     "mod_loader_version_range" to modLoaderVersionRange,
-) + Props.toMap()
+) + Props.toMap()).toMutableMap().apply {
+    put("minecraft_version", "1.20.6")
+    put("minecraft_version_range", "[1.20.6,1.21.5)")
+}
 
 tasks.processResources {
     val targets = listOf("META-INF/mods.toml", "pack.mcmeta")
