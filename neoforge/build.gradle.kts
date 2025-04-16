@@ -72,7 +72,7 @@ minecraft {
 //    accessTransformers { file("src/main/resources/META-INF/accesstransformer.cfg") }
 }
 mixin {
-//    config("${Props.MOD_ID}.mixins.json")
+    config("${Props.MOD_ID}.mixins.json")
 }
 
 tasks.compileJava { options.annotationProcessorPath = files() }
